@@ -1,5 +1,5 @@
 var fs = require('fs');
-var http = require('http');
+var path = require('path');
 var https = require('https');
 var privateKey  = fs.readFileSync(__dirname + '/cert/server.key', 'utf8');
 var certificate = fs.readFileSync(__dirname + '/cert/server.crt', 'utf8');
@@ -8,10 +8,30 @@ var credentials = {key: privateKey, cert: certificate};
 var express = require('express');
 const app = express();
 
-app.use(express.static(__dirname + '/'));
+//app.use(express.static(__dirname + '/'));
 
-// Create an HTTP service.
-http.createServer(app).listen(80);
+app.use((req, res, next) => {
+  // If the requested path doesn't have an extension, assume it's a HTML file
+  if (!path.extname(req.path)) {
+    // Try to find the HTML file with the same name
+    const htmlFilePath = path.join(__dirname, req.path + '.html');
+    console.log(htmlFilePath);
+    // Check if the HTML file exists
+    if (fs.existsSync(htmlFilePath)) {
+      // If the HTML file exists, serve it
+      return res.sendFile(htmlFilePath);
+    }
+  }
+  // If no HTML file was found, move to the next middleware
+  next();
+});
+
+app.use(express.static(path.join(__dirname)));
+
+app.listen(80, () => {
+  console.log(`Server is running on http://localhost:${80}`);
+});
+
 // Create an HTTPS service identical to the HTTP service.
 const secserver = https.createServer(credentials, app);
 
@@ -125,11 +145,6 @@ secserver.listen(process.env.PORT || 3000,function() {
   console.log("Server created!");
   console.log(allNetworkInterfaces);
   console.log('WebSocket server is listening on port: '+ String(process.env.PORT || 3000));
-  console.log('Type Width/Height/Hsize/Spacing to change bionic vision layout!');
-  console.log('Bionic 99: 12/9/10/30');
-  console.log('Coarse: 20/15/5/18');
-  console.log('Med fine: 40/30/3/10');
-  console.log('Med fine: 40/30/3/10');
 });
 
 

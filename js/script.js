@@ -66,7 +66,6 @@ stop.onclick = function(){
     updatespeed();
 };
 
-
 let pressTimer;
 
 up.addEventListener("mousedown", startPressUp);

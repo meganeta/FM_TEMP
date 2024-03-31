@@ -1,3 +1,4 @@
+var connect = false;
 var speed = 0;
 /*
 mode 
@@ -7,6 +8,8 @@ mode
 4: custom
 */
 var mode = 0;
+
+let connect = document.getElementById('connect');
 
 var loc = window.location;
 var socketURL = (loc.protocol === 'https:' ? 'wss://' : 'ws://') + loc.host;
@@ -19,7 +22,7 @@ socket.onopen = function() {
   
     // Send a message to the server
     //socket.send('Hello, server!');
-  };
+};
 
 // Handle incoming messages from the server
 socket.onmessage = function(event) {
@@ -30,12 +33,18 @@ socket.onmessage = function(event) {
     
     if (res.length == 4) {
         // Process the message or perform any desired action
+        /*
         width = res[0];
         height = res[1];
         hsize = res[2];
         spacing = res[3];
+        */
 
         socket.send(res);
+    } else if (res.length == 1) {
+        if(+res[0] == 1) {
+            connect.innerText = "已连接";
+        }
     }
 };
   
