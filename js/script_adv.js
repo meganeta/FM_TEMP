@@ -71,6 +71,7 @@ let initialData = {
   
   function drag_start(event){
     console.log("down");
+    event.preventDefault();
     isDragging = true;
   }
   
@@ -81,6 +82,7 @@ let initialData = {
   }
   
   function dragging(event){
+    event.preventDefault();
     console.log("move");
     if (isDragging) {
       if (!sel_point) {
@@ -94,7 +96,6 @@ let initialData = {
         }
 
         dynamic_factor = 150/(this.getBoundingClientRect().height);
-
       } else {
         let mouseY = event.clientY;
         // Update data point value if within range
@@ -106,7 +107,37 @@ let initialData = {
         }
         myChart.data.datasets[0].data[dataIndex] = value;
         myChart.update();
+        console.log(value);
+      }
+    }
+  }
 
+  function touch_dragging(event){
+    event.preventDefault();
+    console.log("move");
+    if (isDragging) {
+      if (!sel_point) {
+        let mouseX = event.touches[0].clientX - this.getBoundingClientRect().left;
+        mouseY_init = event.touches[0].clientY;
+        let chartArea = myChart.chartArea;
+        dataIndex = Math.floor((mouseX / this.getBoundingClientRect().width) * myChart.data.datasets[0].data.length);
+        if (dataIndex < myChart.data.datasets[0].data.length) {
+          sel_point = true;
+          init_data = myChart.data.datasets[0].data[dataIndex];
+        }
+
+        dynamic_factor = 150/(this.getBoundingClientRect().height);
+      } else {
+        let mouseY = event.touches[0].clientY;
+        // Update data point value if within range
+        var value = Math.round((mouseY_init - mouseY)*dynamic_factor + init_data);
+        if (value > 100) {
+          value = 100;
+        } else if (value < 0) {
+          value = 0;
+        }
+        myChart.data.datasets[0].data[dataIndex] = value;
+        myChart.update();
         console.log(value);
       }
     }
@@ -119,7 +150,7 @@ let initialData = {
   chart.addEventListener('mouseleave', drag_end);
 
   chart.addEventListener('touchstart', drag_start);
-  chart.addEventListener('touchmove', dragging);
+  chart.addEventListener('touchmove', touch_dragging);
   chart.addEventListener('touchend', drag_end);
   
 

@@ -2,7 +2,7 @@ let up = document.getElementById('up');
 let down = document.getElementById('down');
 let stop = document.getElementById('stop');
 let speed_ind = document.getElementById('indicator');
-let advanced = document.getElementById('advanced');
+let advanced_mode = document.getElementById('advanced_mode');
 
 /*
 $(window).ready(updateHeight);
@@ -45,9 +45,9 @@ function updatespeed() {
     }
 }
 
-advanced.oninput = function(){
+advanced_mode.oninput = function(){
     console.log("mode");
-    mode = advanced.value;
+    mode = advanced_mode.value;
 }
 
 up.onclick = function(){

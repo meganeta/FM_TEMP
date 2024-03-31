@@ -93,6 +93,8 @@ a {
     width: 90%;
     padding: 10px;
     text-align: center;
+    overflow: hidden;
+    position: relative;
 }
 
 .name_column {
@@ -167,11 +169,6 @@ clear: both;
 }
 
 video {
-    display: inline-block;
-    width: 100%;
-}
-
-canvas {
     display: inline-block;
     width: 100%;
 }
