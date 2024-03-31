@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="apple-mobile-web-app-capable"
+  content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script defer src="js/opencv.js"></script>
+  <script defer src="js/script_con.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <title>REMOTE CONTROL DEMO</title>
+  <!-- Meganeta 2024 -->
+  <!-- Please note only simplified Chinese locale is available -->
+</head>
+
+<body>  
+  <div class="header">
+    <h1>ADVANCED CONTROL</h1>
+    <p>DEMO VER 1.0 BY メガネタ</p>
+  </div>
+  <div class="row">
+    <div class="radio_row">
+      <div class="column">
+        <canvas id="canvasOutput" width="400" height="300" playsinline  webkit-playsinline></canvas>
+      </div>
+      <div class="column">
+        <label>
+          <p>Resolution Settings</p>
+          <p></p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;Name [w/h/hs/s]</p>
+          <p><input type="radio" name="resolution" value="1" id="1" /> Phoneix99 [12/9/10/30]</p>
+          <p><input type="radio" name="resolution" value="2" id="2" /> 300 [20/15/5/18]</p>
+          <p><input type="radio" name="resolution" value="3" id="3" checked /> 1200 [40/30/3/10]</p>
+          <p><input type="radio" name="resolution" value="4" id="4" /> Custom</p>
+          <div class="row">
+            <div class="column">
+              <p class="popup_input" id="wp"><input type="number" id="w" /> Width</p>
+              <p class="popup_input" id="hp"><input type="number" id="h" /> Height</p>
+            </div>
+            <div class="column">
+              <p class="popup_input" id="hsp"><input type="number" id="hs" /> Half size</p>
+              <p class="popup_input" id="sp"><input type="number" id="s" /> Spacing</p>
+            </div>
+          </div>
+          <button class="popup_input" id='confirm'>Confirm</button>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="radio_row">
+      <div class="column">
+        <label>
+          <p>Client Control Settings</p>
+          <p></p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;Link control</p>
+          <p><input type="radio" name="links" value="5" id="5" /> All links enabled</p>
+          <p><input type="radio" name="links" value="6" id="6" /> All links disabled</p>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="button_row">
+      <button id='button'>APPLY</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p id = "foot">メガネタ 2024 <a href="https://t.me/meganeta">Telegram</a>, <a href="https://twitter.com/tg_meganeta">Twitter/X</a></p>
+  </div>
+</body>
+</html>
