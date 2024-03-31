@@ -10,11 +10,29 @@ var client_id = document.getElementById('client_id');
 
 var username = "变态";
 
+window.onload = function(){
+    generateUniqueId();
+}
+
 client_id.oninput = function () {
-    if (client_id.value.length > 6) {
+    if (client_id.value.length > 20) {
         window.alert("用户名过长！")
-        client_id.value = "";
+        client_id.value = username;
     }
+}
+
+function generateUniqueId() {
+    // Get the current timestamp in milliseconds
+    var timestamp = String(new Date().getTime()).slice(-3);
+    
+    // Generate a random number between 0 and 9999
+    var randomNumber = Math.floor(Math.random() * 10000);
+    
+    // Combine timestamp and random number to create a unique ID
+    var uniqueId = timestamp + "_" + randomNumber;
+    
+    username = username + "@" + uniqueId;
+    client_id.value = username;
 }
 
 function addRow(name,mode,time) {
@@ -37,6 +55,8 @@ light.onclick = function(){
     if(client_id.value.length>0){
         username = client_id.value;
     }
+
+    socket.send("tab"+'/'+username+'/'+'0');
 }
 
 moderate.onclick = function(){
@@ -44,7 +64,7 @@ moderate.onclick = function(){
         username = client_id.value;
     }
 
-    
+    socket.send("tab"+'/'+username+'/'+'1');
 }
 
 strong.onclick = function(){
@@ -52,7 +72,7 @@ strong.onclick = function(){
         username = client_id.value;
     }
 
-
+    socket.send("tab"+'/'+username+'/'+'2');
 }
 
 brutal.onclick = function(){
@@ -60,7 +80,7 @@ brutal.onclick = function(){
         username = client_id.value;
     }
 
-
+    socket.send("tab"+'/'+username+'/'+'3');
 }
 
 var loc = window.location;
@@ -93,12 +113,12 @@ socket.onmessage = function(event) {
         }
     }
 
-    if (res.length == 2) {
+    if (res.length == 4) {
         // Process the message or perform any desired action
-        if (res[0] == "set" && +res[1]) {
-            window.alert("Settings Updated!");
-        } else {
-            window.alert("Incorrect Password!");
+        if (res[0] == "tab1") {
+            addRow(res[1],res[2],res[3]);
+        } else if (res[0] == "tab0") {
+            deleteRow(0);
         }
     }
 };
