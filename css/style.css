@@ -88,11 +88,17 @@ a {
     text-align: center;
 }
 
+.chart_column {
+    float: center;
+    width: 90%;
+    padding: 10px;
+    text-align: center;
+}
+
 .name_column {
     float: left;
     width: 30%; /* Adjust width as needed */
     text-align: right;
-    justify-content: right;
 }
 
 .input_column {
@@ -104,8 +110,11 @@ a {
 
 .input_row {
     width: 100%; /* Adjust width as needed */
-    text-align: center;
-    justify-content: center;
+    display: inline;
+}
+
+.label {
+    margin-right: 5px;
 }
 
 .input {

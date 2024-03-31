@@ -2,6 +2,7 @@ let up = document.getElementById('up');
 let down = document.getElementById('down');
 let stop = document.getElementById('stop');
 let speed_ind = document.getElementById('indicator');
+let advanced = document.getElementById('advanced');
 
 /*
 $(window).ready(updateHeight);
@@ -15,6 +16,7 @@ function updateHeight()
 */
 
 window.onload = function() {
+
     var container = document.getElementById('container');
     
     function adjustFontSize() {
@@ -43,6 +45,10 @@ function updatespeed() {
     }
 }
 
+advanced.oninput = function(){
+    console.log("mode");
+    mode = advanced.value;
+}
 
 up.onclick = function(){
     console.log("UP");

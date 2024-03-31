@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="apple-mobile-web-app-capable"
+  content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="js/script_adv.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <title>REMOTE CONTROL DEMO</title>
+  <!-- Meganeta 2024 -->
+  <!-- Please note only simplified Chinese locale is available -->
+</head>
+
+<body>  
+  <div class="header">
+    <h1>高 级 模 式</h1>
+    <p>DEMO VER 1.0 BY メガネタ</p>
+  </div>
+
+  <div class="radio_row">
+    <div class = "chart_column">
+      <canvas id="myChart" width="400",height="400"></canvas>
+    </div>
+  </div>
+
+  <div class="radio_row">
+    <p class="topnav">图表表示了2秒周期内的相对速度曲线，请调整曲线来实现自定义波形。</p>
+  </div>
+
+  <div class="row">
+    <div class="button_row">
+      <button id='apply'>应用</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="button_row">
+      <button id='reset'>重置</button>
+    </div>
+  </div>
+
+  <div class="input_row">
+    <div id="links" class="topnav">
+      <a href="queue">群控模式</a>
+    </div>
+  </div>
+
+  <div id="links" class="topnav">
+    <a href="index">主页</a>
+  </div>
+
+  <div class="footer">
+    <p id = "foot">メガネタ 2024 （欢迎私聊投喂） <a href="https://t.me/meganeta">Telegram</a>, <a href="https://twitter.com/tg_meganeta">推特/X</a></p>
+  </div>
+</body>
+</html>

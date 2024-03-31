@@ -10,6 +10,7 @@ mode
 var mode = 0;
 
 let connect = document.getElementById('connect');
+let advanced = document.getElementById('advanced');
 
 var loc = window.location;
 var socketURL = (loc.protocol === 'https:' ? 'wss://' : 'ws://') + loc.host;
@@ -48,6 +49,13 @@ socket.onmessage = function(event) {
         } else {
             connect.innerText = "未连接";
             con_status = false;
+        }
+        socket.send("adv");
+    } else if (res.length == 2) {
+        if(res[0] == "adv" && +res[1]) {
+            advanced.options[3].text = "自选（高级模式）";
+        } else {
+            advanced.options[3].text = "不可用（高级模式）";
         }
     }
 };
