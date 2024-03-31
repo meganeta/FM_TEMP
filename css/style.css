@@ -16,6 +16,33 @@
     user-select: none; /* Standard */
 }
 
+table {
+    color:#F1F1F1;
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 0px;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: black;
+}
+
+th:first-child,
+td:first-child {
+    width: 50%; /* First column width */
+}
+th:nth-child(2),
+td:nth-child(2) {
+    width: 30%; /* Second column width */
+}
+th:nth-child(3),
+td:nth-child(3) {
+    width: 20%; /* Third column width */
+}
+
 .container {
     width:400px;
     height:300px;
@@ -47,7 +74,8 @@
     overflow: hidden;
     justify-content: center;
     text-align: center;
-  }
+    vertical-align: center;
+}
 
 a {
     color: inherit;

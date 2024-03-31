@@ -1,4 +1,4 @@
-var connect = false;
+var con_status = false;
 var speed = 0;
 /*
 mode 
@@ -21,7 +21,7 @@ socket.onopen = function() {
     console.log('WebSocket connection established.');
   
     // Send a message to the server
-    //socket.send('Hello, server!');
+    socket.send("con");
 };
 
 // Handle incoming messages from the server
@@ -44,6 +44,10 @@ socket.onmessage = function(event) {
     } else if (res.length == 1) {
         if(+res[0] == 1) {
             connect.innerText = "已连接";
+            con_status = true;
+        } else {
+            connect.innerText = "未连接";
+            con_status = false;
         }
     }
 };

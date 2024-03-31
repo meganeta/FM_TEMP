@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
-  <script defer src="js/script_set.js"></script>
+  <script defer src="js/script_queue.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
   <title>REMOTE CONTROL DEMO</title>
@@ -22,22 +22,40 @@
     <p>DEMO VER 1.0 BY メガネタ</p>
   </div>
 
-  <div class="input_row">
-    <div class="name_column">
-      <p class="topnav"> </p>
+  <div class="row">
+    <div class="column">
+      <p id="user_count" class="topnav">当前人数：0</p>
     </div>
-    <div class="input_column">
-      <p class="topnav">Max Speed: </p>
+    <div class="column">
+      <p id="connect" class="topnav">未连接</p>
     </div>
   </div>
 
   <div class="input_row">
-    <div class="name_column">
-      <p class="topnav">你的用户名</p>
+    <table id="exec_table">
+      <thead>
+        <tr>
+          <th>用户名🥹</th>
+          <th>强度💪</th>
+          <th>时长🎲</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <p></p>
     </div>
-    <div class="input_column">
-      <input class="input" type="text" id="client_id" placeholder="未命名">
+    <div class="column">
+      <p id="connect" class="topnav">按次序从上至下执行，最多显示6个指令。</p>
     </div>
+  </div>
+
+  <div class="input_row">
+    <input class="input" type="text" id="client_id" placeholder="请输入你的用户名">
   </div>
 
   <div class="row">
@@ -45,13 +63,13 @@
       <button id='light'>安抚😴</button>
     </div>
     <div class="column">
-      <button id='light'>挑逗😘</button>
+      <button id='moderate'>挑逗😘</button>
     </div>
     <div class="column">
-      <button id='light'>激烈😍</button>
+      <button id='strong'>激烈😍</button>
     </div>
     <div class="column">
-      <button id='light'>地狱😈</button>
+      <button id='brutal'>地狱😈</button>
     </div>
   </div>
 
@@ -60,7 +78,7 @@
   </div>
 
   <div class="footer">
-    <p id = "foot">メガネタ 2024 <a href="https://t.me/meganeta">Telegram</a>, <a href="https://twitter.com/tg_meganeta">推特/X</a></p>
+    <p id = "foot">メガネタ 2024 （欢迎私聊投喂） <a href="https://t.me/meganeta">Telegram</a>, <a href="https://twitter.com/tg_meganeta">推特/X</a></p>
   </div>
 </body>
 </html>
