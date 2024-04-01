@@ -202,12 +202,14 @@ reset.onclick = function() {
   wave_datasets = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
   deleteCookie("meganeta_data");
   myChart.data.datasets[0].data = wave_datasets;
-  myChart.update("none");
+  
 
   advanced_period.value = "1";
   myChart.data.labels = ['0.0', '0.2', '0.4', '0.6', '0.8', '1.0', '1.2', '1.4', '1.6', '1.8'];
   inst.innerText = "图表表示了2秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
   deleteCookie('meganeta_data_mode');
+
+  myChart.update("none");
 }
 
 advanced_period.oninput = function() {
