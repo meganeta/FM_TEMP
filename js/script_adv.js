@@ -5,6 +5,7 @@ let advanced_period = document.getElementById('advanced_period');
 let inst = document.getElementById('inst');
 
 var wave_datasets = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+var chart_labels = ['0.0', '0.2', '0.4', '0.6', '0.8', '1.0', '1.2', '1.4', '1.6', '1.8'];
 
 var value = getCookie('meganeta_data');
 if (value != null) {
@@ -15,6 +16,17 @@ if (value != null) {
 var value = getCookie('meganeta_data_mode');
 if (value != null) {
   advanced_period.value = value;
+  
+  if (value == "0") {
+    chart_labels = ['0.0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9'];
+    inst.innerText = "图表表示了1秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
+  } else if (value == "1") {
+    chart_labels = ['0.0', '0.2', '0.4', '0.6', '0.8', '1.0', '1.2', '1.4', '1.6', '1.8'];
+    inst.innerText = "图表表示了2秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
+  } else {
+    chart_labels = ['0.0', '0.4', '0.8', '1.2', '1.6', '2.0', '2.4', '2.8', '3.2', '3.6'];
+    inst.innerText = "图表表示了4秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
+  }
 }
 
 window.onresize = function(){
@@ -23,7 +35,7 @@ window.onresize = function(){
 
 // Initial data for the chart
 let initialData = {
-    labels: ['0.0', '0.2', '0.4', '0.6', '0.8', '1.0', '1.2', '1.4', '1.6', '1.8'],
+    labels: chart_labels,
     datasets: [{
       label: '相对速度',
       backgroundColor: 'rgb(255, 99, 132)',
@@ -201,12 +213,17 @@ advanced_period.oninput = function() {
   var opt = advanced_period.value;
   setCookie('meganeta_data_mode',opt,30);
   if (opt == "0") {
+    myChart.data.labels = ['0.0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9'];
     inst.innerText = "图表表示了1秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
   } else if (opt == "1") {
+    myChart.data.labels = ['0.0', '0.2', '0.4', '0.6', '0.8', '1.0', '1.2', '1.4', '1.6', '1.8'];
     inst.innerText = "图表表示了2秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
   } else {
+    myChart.data.labels = ['0.0', '0.4', '0.8', '1.2', '1.6', '2.0', '2.4', '2.8', '3.2', '3.6'];
     inst.innerText = "图表表示了4秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
   }
+
+  myChart.update("none");
 }
 
 var loc = window.location;
