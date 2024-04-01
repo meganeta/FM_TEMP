@@ -1,6 +1,21 @@
 let apply = document.getElementById('apply');
 let reset = document.getElementById('reset');
 let chart = document.getElementById('myChart');
+let advanced_period = document.getElementById('advanced_period');
+let inst = document.getElementById('inst');
+
+var wave_datasets = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+
+var value = getCookie('meganeta_data');
+if (value != null) {
+  wave_datasets = JSON.parse(value);
+  console.log(wave_datasets);
+}
+
+var value = getCookie('meganeta_data_mode');
+if (value != null) {
+  advanced_period.value = value;
+}
 
 window.onresize = function(){
     window.location.reload();
@@ -13,7 +28,7 @@ let initialData = {
       label: '相对速度',
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
-      data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+      data: wave_datasets,
       fill: false,
     }]
   };
@@ -25,10 +40,16 @@ let initialData = {
     options: {
       responsive: true,
       plugins: {
+        legend: {
+          display: false, // Hide legend
+        },
         title: {
           display: true,
           color: "#f1f1f1",
-          text: '动态自选波形'
+          text: '动态自选波形',
+          font: {
+            size:20
+          }
         },
         tooltip: {
           mode: 'index',
@@ -42,6 +63,9 @@ let initialData = {
             display: true,
             color: "#f1f1f1",
             text: '时间（秒）'
+          },
+          ticks: {
+            color: "#f1f1f1" // Set color of x-axis values
           }
         },
         y: {
@@ -50,6 +74,9 @@ let initialData = {
             display: true,
             color: "#f1f1f1",
             text: '相对速度（%）'
+          },
+          ticks: {
+            color: "#f1f1f1" // Set color of x-axis values
           },
           min:0,
           max:100
@@ -79,11 +106,14 @@ let initialData = {
     console.log("up");
     isDragging = false;
     sel_point = false;
+
+    wave_datasets = myChart.data.datasets[0].data;
+
+    setCookie("meganeta_data", JSON.stringify(wave_datasets), 30);
   }
   
   function dragging(event){
     event.preventDefault();
-    console.log("move");
     if (isDragging) {
       if (!sel_point) {
         let mouseX = event.clientX - this.getBoundingClientRect().left;
@@ -106,15 +136,13 @@ let initialData = {
           value = 0;
         }
         myChart.data.datasets[0].data[dataIndex] = value;
-        myChart.update();
-        console.log(value);
+        myChart.update('none');
       }
     }
   }
 
   function touch_dragging(event){
     event.preventDefault();
-    console.log("move");
     if (isDragging) {
       if (!sel_point) {
         let mouseX = event.touches[0].clientX - this.getBoundingClientRect().left;
@@ -137,8 +165,7 @@ let initialData = {
           value = 0;
         }
         myChart.data.datasets[0].data[dataIndex] = value;
-        myChart.update();
-        console.log(value);
+        myChart.update('none');
       }
     }
   }
@@ -155,12 +182,31 @@ let initialData = {
   
 
 apply.onclick = function () {
-    socket.send("chart" + "/" + myChart.data.datasets[0].data);
+
+  socket.send("chart" + "/" + JSON.stringify(wave_datasets) + "/" + advanced_period.value);
 }
 
 reset.onclick = function() {
-    myChart.data.datasets[0].data[dataIndex] = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
-    myChart.update();
+  wave_datasets = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+  deleteCookie("meganeta_data");
+  myChart.data.datasets[0].data = wave_datasets;
+  myChart.update("none");
+
+  advanced_period.value = "1";
+  inst.innerText = "图表表示了2秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
+  deleteCookie('meganeta_data_mode');
+}
+
+advanced_period.oninput = function() {
+  var opt = advanced_period.value;
+  setCookie('meganeta_data_mode',opt,30);
+  if (opt == "0") {
+    inst.innerText = "图表表示了1秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
+  } else if (opt == "1") {
+    inst.innerText = "图表表示了2秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
+  } else {
+    inst.innerText = "图表表示了4秒周期内的相对速度曲线，请调整曲线来实现自定义波形，推荐横屏使用。";
+  }
 }
 
 var loc = window.location;
@@ -202,3 +248,35 @@ console.log('WebSocket connection closed with code:', event.code);
 socket.onerror = function(error) {
 console.error('WebSocket error:', error);
 };
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+// Function to get a cookie value by name
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var cookies = document.cookie.split(';');
+  for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      while (cookie.charAt(0) === ' ') {
+          cookie = cookie.substring(1, cookie.length);
+      }
+      if (cookie.indexOf(nameEQ) === 0) {
+          return cookie.substring(nameEQ.length, cookie.length);
+      }
+  }
+  return null;
+}
+
+// Function to delete a cookie by name
+function deleteCookie(name) {
+  document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}

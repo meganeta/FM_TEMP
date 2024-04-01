@@ -11,13 +11,20 @@ var client_id = document.getElementById('client_id');
 var username = "变态";
 
 window.onload = function(){
-    generateUniqueId();
+    var value = getCookie("meganeta_username");
+    if (value == null) {
+        generateUniqueId();
+    } else {
+        username = value;
+        client_id.value = username;
+    }
 }
 
 client_id.oninput = function () {
     if (client_id.value.length > 20) {
         window.alert("用户名过长！")
         client_id.value = username;
+        setCookie("meganeta_username", username, 3);
     }
 }
 
@@ -33,6 +40,8 @@ function generateUniqueId() {
     
     username = username + "@" + uniqueId;
     client_id.value = username;
+
+    setCookie("meganeta_username", username, 30);
 }
 
 function addRow(name,mode,time) {
@@ -49,6 +58,38 @@ function addRow(name,mode,time) {
 function deleteRow(row_num){
     var table = document.getElementById("exec_table");
     table.deleteRow(rowNumber);
+}
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+// Function to get a cookie value by name
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        while (cookie.charAt(0) === ' ') {
+            cookie = cookie.substring(1, cookie.length);
+        }
+        if (cookie.indexOf(nameEQ) === 0) {
+            return cookie.substring(nameEQ.length, cookie.length);
+        }
+    }
+    return null;
+}
+
+// Function to delete a cookie by name
+function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
 
 light.onclick = function(){
